@@ -1,39 +1,58 @@
-<script setup>
-// import { storeToRefs } from "pinia"
+<script>
+import axios from "axios"
 
-// import { useAuthStore, useUsersStore } from "@/stores"
 
-// const authStore = useAuthStore()
-// const { user: authUser } = storeToRefs(authStore)
+export default {
+    data() {
+        return {
+            email: "",
+            password: "",
+            name: localStorage.getItem('name')
+        }
+    },
+    methods: {
+        // async login() {
+        //     const loginData = {
+        //         email: this.email,
+        //         password: this.password,
+        //     }
 
-// const usersStore = useUsersStore()
-// const { users } = storeToRefs(usersStore)
+        //     try {
+        //         const response = await fetch(
+        //             "http://localhost:8085/auth/signin",
+        //             {
+        //                 method: "POST",
+        //                 headers: {
+        //                     "Content-Type": "application/json",
+        //                 },
+        //                 body: JSON.stringify(loginData),
+        //             }
+        //         )
 
-usersStore.getAll()
+        //         if (!response.ok) {
+        //             throw new Error("Authentication failed")
+        //         }
+
+        //         const responseData = await response.json()
+        //         const jwtToken = responseData.accessToken
+
+        //         // Теперь у вас есть JWT токен, который вы можете использовать для дальнейших запросов
+        //         console.log("JWT Token:", jwtToken)
+
+        //         // Здесь вы можете сохранить токен в localStorage или в состояние Vue компонента
+        //         // localStorage.setItem('jwtToken', jwtToken);
+        //         // или
+        //         // this.$store.commit('setJwtToken', jwtToken);
+        //     } catch (error) {
+        //         console.error("Authentication error:", error)
+        //     }
+        // },
+    },
+}
 </script>
 
 <template>
     <div>
-        <!-- <h1>Hi {{ authUser?.firstName }}!</h1>
-        <p>You're logged in with Vue 3 + Pinia & JWT!!</p>
-        <h3>Users from secure api end point:</h3>
-        <ul v-if="users.length">
-            <li
-                v-for="user in users"
-                :key="user.id"
-            >
-                {{ user.firstName }} {{ user.lastName }}
-            </li>
-        </ul>
-        <div
-            v-if="users.loading"
-            class="spinner-border spinner-border-sm"
-        ></div>
-        <div
-            v-if="users.error"
-            class="text-danger"
-        >
-            Error loading users: {{ users.error }}
-        </div> -->
+        <h1>Снова здарвствуйте, {{ this.name  }}</h1>
     </div>
 </template>

@@ -2,8 +2,7 @@
 import { RouterView } from 'vue-router'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
-router.replace('/signin')
+
 </script>
 
 <template>

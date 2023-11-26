@@ -10,33 +10,40 @@ import NomeView from "@/views/HomeView.vue"
     linkActiveClass: "active",
     routes: [
         {
-            path: "/signin",
+            path: "/auth/signin",
             name: "signIn",
             component: AuthorizationView,
         },
         {
-            path: "/signup",
+            path: "/auth/signup",
             name: "signup",
             component: RegistrationView,
         },
         {
-            path: "/",
+            path: "/auth/home",
             name: "home",
             component: NomeView,
+            meta: { requiresAuth: true } 
         },
     ],
 })
 
-// router.beforeEach(async (to) => {
-//     // redirect to login page if not logged in and trying to access a restricted page
-//     const publicPages = ["/signin"]
-//     const authRequired = !publicPages.includes(to.path)
-//     const auth = useAuthStore()
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+   
+//     const jwtToken = localStorage.getItem('jwtToken'); // Получение токена из localStorage
 
-//     if (authRequired && !auth.user) {
-//         auth.returnUrl = to.fullPath
-//         return "/signin"
+//     if (!jwtToken) {
+//       // Если токена нет, перенаправляем на страницу входа
+//       next({ path: '/auth/signin' });
+//     } else {
+//       // Если токен есть, разрешаем доступ к защищенному маршруту
+//       next();
 //     }
-// })
+//   } else {
+//     // Для открытых маршрутов
+//     next();
+//   }
+// });
 
 export default router

@@ -19,8 +19,8 @@
         >
         <!-- добавить активность переключателя -->
             <b-navbar-nav>
-                <b-nav-item to="/signin" >Sign In</b-nav-item>
-                <b-nav-item to="/signup" :active="jjj">Sign Up</b-nav-item>
+                <b-nav-item to="/auth/signin" >Sign In</b-nav-item>
+                <b-nav-item to="/auth/signup">Sign Up</b-nav-item>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>

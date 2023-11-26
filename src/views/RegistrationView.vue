@@ -32,6 +32,36 @@ const validation_repeat_password = computed(() => {
         return textRepeatPassword.value.length > 4 && textRepeatPassword.value.length < 13
 })
 
+//////////////////////////////////////
+const register = async () => {
+  const userData = {
+    email: email, // значение получено из поля email
+    password: password, // значение получено из поля password
+    // другие данные нового пользователя, если необходимо
+  };
+
+  try {
+    const response = await fetch("http://localhost:8085/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      // Обработка ошибок при регистрации
+      throw new Error("Registration failed");
+    }
+
+    // Регистрация прошла успешно
+    // Можно выполнить какие-то действия после успешной регистрации
+    // Например, перенаправление на другую страницу или вывод сообщения об успешной регистрации
+  } catch (error) {
+    console.error("Registration error:", error);
+  }
+};
+
 
 </script>
 

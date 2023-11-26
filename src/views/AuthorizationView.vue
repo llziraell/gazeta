@@ -2,6 +2,8 @@
 import MainBlock from "@/components/MainBlock.vue"
 import { ref, computed } from "vue"
 
+import router from '@/router/index.js'
+
 import { useUsersStore } from "@/stores/UsersStore"
 const Users = useUsersStore()
 
@@ -9,30 +11,88 @@ const Users = useUsersStore()
 const textEmail = ref(null)
 const validation_email = computed(() => {
     if (textEmail.value)
-        return textEmail.value.length > 4 && textEmail.value.length < 13
+        return textEmail.value.length > 4 && textEmail.value.length < 20
 })
 
 const textPassword = ref(null)
 const validation_password = computed(() => {
     if (textPassword.value)
-        return textPassword.value.length > 4 && textPassword.value.length < 13
+        return textPassword.value.length > 4 && textPassword.value.length < 20
 })
 
-const signUp = async ()=>{
-    console.log('test')
+///////////////////////////////require////////////
+const login = async () => {
+    
+    const loginData = {
+        email: textEmail.value,
+        password: textPassword.value,
+    }
+
+    console.log(loginData)
+
+    try {
+        const response = await fetch("http://localhost:8085/auth/signin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginData),
+        })
+
+        if (!response.ok) {
+            alert('Неправильный вход!')
+            textEmail.value = null
+            textPassword.value = null
+            throw new Error("Authentication failed")
+        }
+
+        const responseData = await response.json()
+        const jwtToken = responseData.token
+        const name = responseData.name
+        console.log(responseData)
+        console.log("JWT Token:", jwtToken)
+
+        localStorage.setItem('jwtToken', jwtToken);
+        localStorage.setItem('name', name);
+        router.push('/auth/home')
+
+    } catch (error) {
+        console.error("Authentication error:", error)
+    }
 }
 
+/////////////////
 
+const fetchData = async () => {
+    try {
+        const response = await fetch("http://localhost:8085/auth/my", {
+            method: "GET",
+            headers: {
+        
+                // "Authorization": `Bearer ${jwtToken}`,
+            },
+        });
 
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+
+        const responseData = await response.text();
+        console.log("Response data:", responseData);
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
+};
 
 </script>
 
 <template>
     <main-block>
         <template #header> </template>
+        <!-- @submit.stop.prevent -->
         <template #container>
             <b-form
-                @submit.stop.prevent
+                @submit.prevent="login"
                 class="custom-form"
             >
                 <h4>Sign In</h4>
@@ -77,9 +137,9 @@ const signUp = async ()=>{
                         Looks Good.
                     </b-form-valid-feedback>
                 </b-form-group>
+                <!-- type = "submit" -->
                 <b-button
-                    @ckick = "Users.writeData(textEmail)"
-                    type = "submit"
+                    @click="login()"
                     variant="primary"
                     class="submit_btn"
                     >Submit</b-button
