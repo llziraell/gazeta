@@ -2,6 +2,9 @@
 import MainBlock from "@/components/MainBlock.vue"
 import {ref, computed} from 'vue'
 
+
+import router from '@/router/index.js'
+
 const textName = ref(null)
 const validation_name = computed(() => {
     if (textName.value)
@@ -35,9 +38,10 @@ const validation_repeat_password = computed(() => {
 //////////////////////////////////////
 const register = async () => {
   const userData = {
-    email: email, // значение получено из поля email
-    password: password, // значение получено из поля password
-    // другие данные нового пользователя, если необходимо
+    name: textName.value,
+    surname: textSurname.value,
+    email: textEmail.value, 
+    password: textPassword.value, 
   };
 
   try {
@@ -54,9 +58,9 @@ const register = async () => {
       throw new Error("Registration failed");
     }
 
-    // Регистрация прошла успешно
-    // Можно выполнить какие-то действия после успешной регистрации
-    // Например, перенаправление на другую страницу или вывод сообщения об успешной регистрации
+    router.push('/auth/signin')
+   
+    
   } catch (error) {
     console.error("Registration error:", error);
   }
@@ -183,6 +187,7 @@ const register = async () => {
                     type="submit"
                     variant="success"
                     class="submit_btn"
+                    @click = "register()"
                     >Submit</b-button
                 >
             </b-form>

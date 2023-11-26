@@ -11,7 +11,7 @@ import NomeView from "@/views/HomeView.vue"
     routes: [
         {
             path: "/auth/signin",
-            name: "signIn",
+            name: "signin",
             component: AuthorizationView,
         },
         {
